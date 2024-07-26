@@ -13,7 +13,7 @@ body::-webkit-scrollbar {
   display: none;
 }
 
-.site-wrapper {
+main {
   min-height: 100vh !important;
 }
 
@@ -25,7 +25,6 @@ body::-webkit-scrollbar {
   position: static;
   top: 0;
   background-color: #fff7ed;
-  /* width: 100vw; */
 }
 
 .navbar > a,
@@ -140,6 +139,38 @@ button:hover {
   cursor: pointer;
 }
 
+/* Not Found Page */
+.main-notfound-page {
+  height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.main-notfound-page h1 {
+  font-size: 2.5rem;
+  font-weight: bolder;
+}
+
+.main-notfound-page a {
+  text-decoration: none;
+  color: white;
+  background-color: black;
+  padding: 20px 50px;
+  border-radius: 10px;
+  font-weight: bolder;
+  border: 1px solid transparent;
+}
+
+.main-notfound-page a:hover {
+  color: black;
+  background-color: white;
+  border: 1px solid black;
+  font-weight: bolder;
+}
+
 /* About */
 .main-about-page {
   background-color: #fff7ed;
@@ -235,6 +266,58 @@ button:hover {
   padding: 10px 40px;
   background-color: #ffead0;
   border-radius: 10px;
+}
+
+.van-type {
+  height: 34px;
+  padding: 6px 26px;
+  font-style: normal;
+  font-weight: 500;
+  border: none;
+  border-radius: 5px;
+  background-color: #ffead0;
+  color: #4d4d4d;
+  transition: 200ms all cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.van-type:hover {
+  color: #ffead0;
+}
+
+.van-type:focus {
+  outline: none;
+}
+
+.van-type.selected {
+  color: #ffead0;
+}
+
+.van-type.simple:hover,
+.van-type.simple.selected {
+  background-color: #e17654;
+}
+
+.van-type.rugged:hover,
+.van-type.rugged.selected {
+  background-color: #115e59;
+}
+
+.van-type.luxury:hover,
+.van-type.luxury.selected {
+  background-color: #161616;
+}
+
+.van-type.clear-filters {
+  margin-left: -20px;
+  height: 34px;
+  padding: 6px 26px;
+  font-style: normal;
+  font-weight: 500;
+  border: none;
+  border-radius: 5px;
+  text-decoration: underline;
+  background-color: transparent;
+  color: #4d4d4d;
 }
 
 .van-list {

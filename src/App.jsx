@@ -16,6 +16,7 @@ import HostVanDetail from "./pages/Host/HostVanDetail";
 import HostVanInfo from "./components/HostVanInfo";
 import HostVanPricing from "./components/HostVanPricing";
 import HostVanPhoto from "./components/HostVanPhoto";
+import NotFound from "./pages/NotFound";
 
 export default function App() {
   return (
@@ -39,6 +40,7 @@ export default function App() {
                 <Route path="photos" element={<HostVanPhoto />} />
               </Route>
             </Route>
+            <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>
       </BrowserRouter>
