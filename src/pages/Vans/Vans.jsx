@@ -1,38 +1,36 @@
-import React from "react";
-import { Link, useSearchParams, useLoaderData } from "react-router-dom";
+import React, { Suspense } from "react";
+import { Link, useSearchParams, useLoaderData, defer, Await } from "react-router-dom";
 import { getVans } from "../../api";
 
 export function loader() {
-  return getVans();
+  return defer({ vans: getVans() });
 }
 
 export default function Vans() {
   const [searchParams, setSearchParams] = useSearchParams();
   const typeFilter = searchParams.get("type");
-  const vans = useLoaderData();
+  const dataPromise = useLoaderData();
 
-  const displayedVans = typeFilter ? vans.filter((van) => van.type === typeFilter) : vans;
+  function renderVanElements(vans) {
+    const displayedVans = typeFilter ? vans.filter((van) => van.type === typeFilter) : vans;
 
-  const vanElements = displayedVans.map((van) => (
-    <div key={van.id} className="van-tile">
-      <Link to={`${van.id}`} state={{ search: `?${searchParams.toString()}`, type: typeFilter }} aria-label={`View details for ${van.name}, priced at $${van.price} per day`}>
-        <img src={van.imageUrl} alt={`Image of ${van.name}`} />
-        <div className="van-info">
-          <h3>{van.name}</h3>
-          <p>
-            ${van.price}
-            <span>/day</span>
-          </p>
-        </div>
-        <i className={`van-type ${van.type} selected`}>{van.type}</i>
-      </Link>
-    </div>
-  ));
-
-  return (
-    <>
-      <main className="main-vanlist-page">
-        <h1>Explore our van options</h1>
+    const vanElements = displayedVans.map((van) => (
+      <div key={van.id} className="van-tile">
+        <Link to={`${van.id}`} state={{ search: `?${searchParams.toString()}`, type: typeFilter }} aria-label={`View details for ${van.name}, priced at $${van.price} per day`}>
+          <img src={van.imageUrl} alt={`Image of ${van.name}`} />
+          <div className="van-info">
+            <h3>{van.name}</h3>
+            <p>
+              ${van.price}
+              <span>/day</span>
+            </p>
+          </div>
+          <i className={`van-type ${van.type} selected`}>{van.type}</i>
+        </Link>
+      </div>
+    ));
+    return (
+      <>
         <div className="filter">
           <button onClick={() => setSearchParams({ type: "simple" })} className={`van-type simple ${typeFilter === "simple" ? "selected" : ""}`}>
             SIMPLE
@@ -50,6 +48,17 @@ export default function Vans() {
           ) : null}
         </div>
         <div className="van-list">{vanElements}</div>
+      </>
+    );
+  }
+
+  return (
+    <>
+      <main className="main-vanlist-page">
+        <h1>Explore our van options</h1>
+        <Suspense fallback={<h2>Loading Vans...</h2>}>
+          <Await resolve={dataPromise.vans}>{renderVanElements}</Await>
+        </Suspense>
       </main>
     </>
   );
